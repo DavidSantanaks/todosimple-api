@@ -5,12 +5,13 @@ import java.util.Optional;
 import javax.transaction.Transactional;
 
 import org.springframework.beans.factory.annotation.Autowired;
+import org.springframework.stereotype.Service;
 
 import com.davidSantana.todosimple.models.Task;
 import com.davidSantana.todosimple.models.User;
 import com.davidSantana.todosimple.repositories.TaskRepository;
-import com.davidSantana.todosimple.repositories.UserRepository;
 
+@Service
 public class TaskService {
     
     @Autowired
@@ -27,7 +28,7 @@ public class TaskService {
     //Criando uma task
     @Transactional
     public Task creatTask(Task obj){
-        User user = this.userService.findById(obj.getUser().getId());
+        User user = this.userService.findById(obj.getId());
         obj.setId(null);
         obj.setUser(user);
         obj = this.taskRepository.save(obj);
