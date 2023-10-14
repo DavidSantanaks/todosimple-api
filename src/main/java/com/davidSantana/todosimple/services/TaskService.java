@@ -1,5 +1,6 @@
 package com.davidSantana.todosimple.services;
 
+import java.util.List;
 import java.util.Optional;
 
 import javax.transaction.Transactional;
@@ -25,10 +26,16 @@ public class TaskService {
         return task.orElseThrow(() -> new RuntimeException("Task não encontrada! ID: " + id + ",Tipo: " + Task.class.getName()));
     }
 
+    public List<Task> findAllByUserId(Long userId){
+        List<Task> task = this.taskRepository.findByUser_Id(userId);
+        return task;
+        
+    }
+
     //Criando uma task
     @Transactional
     public Task creatTask(Task obj){
-        User user = this.userService.findById(obj.getId());
+        User user = this.userService.findById(obj.getUser().getId());
         obj.setId(null);
         obj.setUser(user);
         obj = this.taskRepository.save(obj);
@@ -53,6 +60,14 @@ public class TaskService {
             throw new RuntimeException("Não foi possivel excluir pois há entidades relacionadas");
         }
     }
+
+    @Transactional
+    public void deleteAllTask(Long id){
+        User user = this.userService.findById(id);
+        this.deleteAllTask(user.getId());
+    }
+
+    
 
 
 }

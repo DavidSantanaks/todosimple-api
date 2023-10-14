@@ -1,5 +1,6 @@
 package com.davidSantana.todosimple.services;
 
+import java.util.List;
 import java.util.Optional;
 
 import javax.transaction.Transactional;
@@ -7,7 +8,7 @@ import javax.transaction.Transactional;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Service;
 
-
+import com.davidSantana.todosimple.models.Task;
 import com.davidSantana.todosimple.models.User;
 import com.davidSantana.todosimple.repositories.UserRepository;
 
@@ -28,7 +29,19 @@ public class UserService {
         return user.orElseThrow(() -> new RuntimeException("Usuário não encontrado! Id:" + id + "Tipo: " + User.class.getName()));
         
     }
-   
+
+    public List<User> findAllUsers(){
+        List<User> task = this.userRepository.findAll();
+        return task;
+    }
+
+   @Transactional
+   public User creatUser(User obj){
+    obj.setId(null);
+    obj  = this.userRepository.save(obj);
+    return obj;
+
+   }
 
     @Transactional
     public User updateUser(User obj){

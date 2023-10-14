@@ -26,7 +26,7 @@ public class Task {
 
     @ManyToOne//Varias coisas de um unico usuario da classe
     @JoinColumn(name = "user_id", nullable = false, updatable = false)
-    private User user; //A tasnk pertence a um usuario
+    private User user; //A task pertence a um usuario
 
     @Column(name = "description", length = 255, nullable = false)
     @NotBlank
