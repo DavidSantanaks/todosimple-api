@@ -70,7 +70,6 @@ public class UserController {
         obj.setId(id);
         this.userService.updateUser(obj);
         return ResponseEntity.noContent().build();
-
     }
 
     @DeleteMapping("/{id}")

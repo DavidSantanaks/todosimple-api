@@ -13,9 +13,14 @@ import javax.validation.constraints.NotEmpty;
 import javax.validation.constraints.NotNull;
 import javax.validation.constraints.Size;
 
-import com.fasterxml.jackson.annotation.JsonIgnore;
 import com.fasterxml.jackson.annotation.JsonProperty;
 import com.fasterxml.jackson.annotation.JsonProperty.Access;
+
+import lombok.AllArgsConstructor;
+import lombok.EqualsAndHashCode;
+import lombok.Getter;
+import lombok.NoArgsConstructor;
+import lombok.Setter;
 
 import java.util.ArrayList;
 import java.util.List;
@@ -26,7 +31,12 @@ import java.util.List;
 @Entity
 //NOME DA TABELA
 @Table(name = User.TABLE_NAME)
-
+@AllArgsConstructor
+@NoArgsConstructor
+@Getter
+@Setter
+@EqualsAndHashCode
+//@Data substitui tudo acima
 public class User {
 
     public interface createUser{}
@@ -56,58 +66,11 @@ public class User {
 
 
     @OneToMany(mappedBy = "user") //Um usuario para varias tarefas
+    @JsonProperty(access = Access.WRITE_ONLY)
     private List<Task> task = new ArrayList<Task>();
     
 
 
-    //Contrutor
-    public User(Long id, String userName, String password) {
-        this.id = id;
-        this.userName = userName;
-        this.password = password;
-    }
-
-    public User() {
-    }
-
-    
-    //Getter and Setters
-
-    public Long getId() {
-        return this.id;
-    }
-
-    public void setId(Long id) {
-        this.id = id;
-    }
-
-    public String getUserName() {
-        return this.userName;
-    }
-
-    public void setUserName(String userName) {
-        this.userName = userName;
-    }
-
-    public String getPassword() {
-        return this.password;
-    }
-
-    public void setPassword(String password) {
-        this.password = password;
-    }
-
-    @JsonIgnore
-    public List<Task> getTask() {
-        return this.task;
-    }
-
-    public void setTask(List<Task> task) {
-        this.task = task;
-    }
-
-    
-
-    //SEM EQUAL E HASH SE DER BO SÓ VOLTA NA AULA 5
+  
     
 }
