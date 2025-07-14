@@ -2,16 +2,21 @@ package com.davidsantana.todosimple.models;
 
 
 import java.util.ArrayList;
+import java.util.List;
 
 import javax.persistence.Column;
 import javax.persistence.Entity;
 import javax.persistence.GeneratedValue;
 import javax.persistence.GenerationType;
 import javax.persistence.Id;
+import javax.persistence.OneToMany;
 import javax.persistence.Table;
 import javax.validation.constraints.NotEmpty;
 import javax.validation.constraints.NotNull;
 import javax.validation.constraints.Size;
+
+import com.fasterxml.jackson.annotation.JsonProperty;
+import com.fasterxml.jackson.annotation.JsonProperty.Access;
 
 @Entity
 @Table(name = User.TABLE_NAME)
@@ -32,6 +37,7 @@ public class User {
     @Size(groups = CreateUser.class,min = 2, max = 100)
     private String username;
     
+    @JsonProperty(access = Access.WRITE_ONLY)
     @Column(name = "password", length = 60, nullable = false)
     @NotNull(groups = {CreateUser.class, UpdateUser.class})
     @NotEmpty(groups = {CreateUser.class, UpdateUser.class}) 
@@ -39,18 +45,31 @@ public class User {
     private String password;
 
 
+    //Contrutor vazio
     public User() {
     }
 
+  
+    //Contrutor completo
     public User(Long id,
-            @NotNull(groups = CreateUser.class) @NotEmpty(groups = CreateUser.class) @Size(groups = CreateUser.class, min = 2, max = 100) String username,
-            @NotNull(groups = { CreateUser.class, UpdateUser.class }) @NotEmpty(groups = { CreateUser.class,
-                    UpdateUser.class }) @Size(groups = CreateUser.class, min = 8, max = 60) String password) {
+            @NotNull(groups = CreateUser.class) 
+            @NotEmpty(groups = CreateUser.class) 
+            @Size(groups = CreateUser.class, min = 2, max = 100)
+            String username,
+            @NotNull(groups = { CreateUser.class, UpdateUser.class }) 
+            @NotEmpty(groups = { CreateUser.class,UpdateUser.class })
+            @Size(groups = CreateUser.class, min = 8, max = 60)
+            String password) {
         this.id = id;
         this.username = username;
         this.password = password;
     }
 
+
+    @OneToMany(mappedBy = "user")
+    private List<Task> tasks = new ArrayList<Task>();
+
+    //GET E SET
     public static String getTableName() {
         return TABLE_NAME;
     }
@@ -78,7 +97,16 @@ public class User {
     public void setPassword(String password) {
         this.password = password;
     }
+    
+    public List<Task> getTask() {
+        return tasks;
+    }
 
+    public void setTask(List<Task> tasks) {
+        this.tasks = tasks;
+    }
+
+    //EQUALS E HASH CODE
     @Override
     public int hashCode() {
         final int prime = 31;
@@ -116,11 +144,4 @@ public class User {
         return true;
     }
 
-    
-
-    
-
-    //private List<Task> task = new ArrayList<Task>();
-
-    
 }
