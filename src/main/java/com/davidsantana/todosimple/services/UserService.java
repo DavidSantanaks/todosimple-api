@@ -8,7 +8,6 @@ import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Service;
 
 import com.davidsantana.todosimple.models.User;
-import com.davidsantana.todosimple.repositories.TaskRepository;
 import com.davidsantana.todosimple.repositories.UserRepository;
 
 @Service
