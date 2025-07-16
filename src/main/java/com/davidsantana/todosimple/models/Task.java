@@ -1,5 +1,7 @@
 package com.davidsantana.todosimple.models;
 
+import java.util.Optional;
+
 import javax.persistence.Column;
 import javax.persistence.Entity;
 import javax.persistence.GeneratedValue;
@@ -53,6 +55,15 @@ public class Task {
         this.user = user;
     }
 
+   public void setUser(Optional<User> user) {
+
+        try {
+            this.user = user.orElseThrow();
+        } catch (Exception e) {
+            throw new UnsupportedOperationException("Unimplemented method 'setUser'");
+        }
+    }
+
     public String getDescription() {
         return description;
     }
@@ -97,5 +108,6 @@ public class Task {
             return false;
         return true;
     }
+    
     
 }
